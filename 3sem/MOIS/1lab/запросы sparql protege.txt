@@ -1,0 +1,100 @@
+запросы sparql protege
+
+спользован запрос SELECT и базовый графовый шаблон из 4 связанных RDF-троек
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX kindergarten: <http://example.org/ontology/kindergarten#>
+
+SELECT ?ребенок ?группа ?воспитатель ?стаж
+WHERE {
+    ?ребенок rdf:type kindergarten:Ребенок .
+    ?ребенок kindergarten:ПосещаетГруппу ?группа .
+    ?воспитатель kindergarten:работаетВГруппе ?группа .
+    ?воспитатель kindergarten:имеетСтаж ?стаж .
+}
+
+Ограничение FILTER + использование иерархии классов / логического вывода
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX kindergarten: <http://example.org/ontology/kindergarten#>
+
+SELECT ?сотрудник ?должность ?возраст ?стаж
+WHERE {
+    ?должность rdfs:subClassOf kindergarten:Сотрудник .
+    ?сотрудник rdf:type ?должность .
+    ?сотрудник kindergarten:имеетВозраст ?возраст .
+    ?сотрудник kindergarten:имеетСтаж ?стаж .
+    FILTER (
+        ?стаж >= 5 &&
+        ?возраст <= 45 &&
+        isLiteral(?стаж) &&
+        REGEX(STR(?сотрудник), "Ольга|Борис")
+    )
+}
+
+. Необязательная (OPTIONAL) и альтернативная (UNION) части шаблона
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX kindergarten: <http://example.org/ontology/kindergarten#>
+
+SELECT ?родитель ?возраст ?телефон ?ребенок
+WHERE {
+    ?родитель rdf:type kindergarten:Родитель .
+    ?родитель kindergarten:имеетВозраст ?возраст .
+    OPTIONAL {
+        ?родитель kindergarten:имеетНомерТелефона ?телефон .
+    }
+    OPTIONAL {
+        { ?родитель kindergarten:ЯвляетсяРодителем ?ребенок . }
+        UNION
+        { ?ребенок kindergarten:имеетРодителя ?родитель . }
+    }
+}
+
+
+ Агрегатные функции (COUNT, AVG, MIN, MAX), GROUP BY и HAVING   
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX kindergarten: <http://example.org/ontology/kindergarten#>
+
+SELECT ?группа (COUNT(?ребенок) AS ?числоДетей) (AVG(?возраст) AS ?среднийВозраст) (MIN(?возраст) AS ?минВозраст) (MAX(?возраст) AS ?максВозраст)
+WHERE {
+    ?группа rdf:type kindergarten:Группа .
+    ?ребенок rdf:type kindergarten:Ребенок .
+    ?ребенок kindergarten:ПосещаетГруппу ?группа .
+    ?ребенок kindergarten:имеетВозраст ?возраст .
+}
+GROUP BY ?группа
+HAVING (COUNT(?ребенок) >= 1)
+
+
+
+Запрос ASK (проверка наличия знаний) и CONSTRUCT (построение нового графа)
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX kindergarten: <http://example.org/ontology/kindergarten#>
+
+ASK WHERE {
+    ?ребенок rdf:type kindergarten:Ребенок ;
+             kindergarten:ПосещаетГруппу kindergarten:Солнышко .
+    ?медсестра rdf:type kindergarten:Медсестра ;
+               kindergarten:Лечит ?ребенок ;
+               kindergarten:имеетСтаж ?стаж .
+    FILTER (?стаж > 10)
+}
+
+CONSTRUCT — строит новый граф прямых связей обучаетРебенка от воспитателя к детям его группы):
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX kindergarten: <http://example.org/ontology/kindergarten#>
+
+CONSTRUCT {
+    ?воспитатель kindergarten:обучаетРебенка ?ребенок .
+}
+WHERE {
+    ?воспитатель rdf:type kindergarten:Воспитатель ;
+                 kindergarten:работаетВГруппе ?группа .
+    ?ребенок rdf:type kindergarten:Ребенок ;
+             kindergarten:ПосещаетГруппу ?группа .
+}

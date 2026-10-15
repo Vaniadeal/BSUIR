@@ -1,0 +1,104 @@
+set_theoretic_ontology_of_subject_domain_of_kindergarten
+= [*
+<- concept_set_theoretic_ontology_of_subject_domain;;
+
+concept_human
+=> nrel_subdividing: {
+ concept_child;
+ concept_parent;
+ concept_employee
+};;
+
+concept_employee
+=> nrel_subdividing: {
+ concept_cook;
+ concept_educator;
+ concept_nurse
+};;
+
+concept_child
+=> nrel_inclusion: concept_human;;
+concept_parent
+=> nrel_inclusion: concept_human;;
+concept_employee
+=> nrel_inclusion: concept_human;;
+concept_cook
+=> nrel_inclusion: concept_employee;;
+concept_educator
+=> nrel_inclusion: concept_employee;;
+concept_nurse
+=> nrel_inclusion: concept_employee;;
+*];;
+
+
+Anya
+<- concept_child;
+=> nrel_has_age: [3];
+=> nrel_has_name: [Аня] (* <- lang_ru;; *);
+=> nrel_visits_group: Zvezdochki;
+=> nrel_has_parent: Elena_Ivanovna;;
+
+Petya
+<- concept_child;
+=> nrel_has_age: [6];
+=> nrel_has_name: [Петя] (* <- lang_ru;; *);
+=> nrel_visits_group: Solnyshko;
+=> nrel_has_parent: Elena_Ivanovna;;
+
+Vanya
+<- concept_child;
+=> nrel_has_age: [5];
+=> nrel_visits_group: Yagodki;;
+
+Masha
+<- concept_child;
+=> nrel_has_age: [4];
+=> nrel_visits_group: Solnyshko;;
+
+Elena_Ivanovna
+<- concept_parent;
+=> nrel_has_age: [32];
+=> nrel_has_phone_number: [12345];;
+
+Ivan_Ivanovich
+<- concept_parent;
+=> nrel_has_age: [35];
+=> nrel_has_phone_number: [56757];;
+
+Olga_Nikolaevna
+<- concept_educator;
+=> nrel_has_age: [40];
+=> nrel_has_experience: [5];
+=> nrel_works_in_group: Solnyshko;;
+
+Anna_Sergeevna
+<- concept_educator;
+=> nrel_has_age: [35];
+=> nrel_has_experience: [3];
+=> nrel_works_in_group: Yagodki;;
+
+Boris_Pavlovich
+<- concept_cook;
+=> nrel_has_age: [45];
+=> nrel_has_experience: [10];
+=> nrel_cooks_for: Solnyshko;;
+
+Tatyana_Ivanovna
+<- concept_nurse;
+=> nrel_has_age: [50];
+=> nrel_has_experience: [15];
+=> nrel_treats: Petya;;
+
+Zvezdochki
+<- concept_group;;
+Solnyshko
+<- concept_group;;
+Yagodki
+<- concept_group;;
+
+MuzykalnyZal
+<- concept_premises;;
+
+Utrennik
+<- concept_event;
+=> nrel_takes_place_in: MuzykalnyZal;;

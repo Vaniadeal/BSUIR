@@ -1,0 +1,25 @@
+concept_child
+=> nrel_main_idtf:
+ [ребёнок]
+ (*
+ <- lang_ru;;
+ *);
+=> nrel_main_idtf:
+ [child]
+ (*
+ <- lang_en;;
+ *);
+<- rrel_explored_concept:
+ subject_domain_of_kindergarten;
+<= nrel_inclusion:
+ concept_human;
+=> nrel_inclusion:
+ concept_preschooler;
+-> rrel_example:
+ Anya;
+=> nrel_definition:
+ [Ребёнок — это человек в возрасте от 2 до 7 лет, посещающий
+ дошкольное образовательное учреждение (детский сад).]
+ (*
+ <- lang_ru;;
+ *);;

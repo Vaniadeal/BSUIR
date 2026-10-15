@@ -1,0 +1,75 @@
+subject_domain_of_kindergarten
+=> nrel_main_idtf:
+ [Предметная область детского сада]
+ (*
+ <- lang_ru;;
+ *);
+=> nrel_main_idtf:
+ [Subject domain of kindergarten]
+ (*
+ <- lang_en;;
+ *);
+<- concept_subject_domain;
+=> nrel_ontology:
+ structural_specification_of_subject_domain_of_kindergarten;
+ set_theoretic_ontology_of_subject_domain_of_kindergarten;;
+
+structural_specification_of_subject_domain_of_kindergarten
+= [*
+<- concept_structural_specification_of_subject_domain;;
+
+subject_domain_of_kindergarten
+-> rrel_maximum_studied_object_class:
+ concept_human;
+ concept_group;
+ concept_premises;
+ concept_event;
+-> rrel_not_maximum_studied_object_class:
+ concept_child;
+ concept_parent;
+ concept_employee;
+ concept_educator;
+ concept_cook;
+ concept_nurse;
+-> rrel_explored_relation:
+ nrel_visits_group;
+ nrel_has_parent;
+ nrel_works_in_group;
+ nrel_cooks_for;
+ nrel_treats;
+ nrel_takes_place_in;
+ nrel_has_name;
+ nrel_has_age;
+ nrel_has_experience;
+ nrel_has_phone_number;
+<= nrel_child_subject_domain:
+ subject_domain_of_education;
+=> nrel_child_subject_domain:
+ subject_domain_of_nursery;
+ subject_domain_of_preschool;;
+*];;
+
+
+subject_domain_of_education
+=> nrel_main_idtf:
+ [Предметная область образования]
+ (* <- lang_ru;; *);
+<- concept_subject_domain;
+=> nrel_child_subject_domain:
+ subject_domain_of_kindergarten;;
+
+subject_domain_of_nursery
+=> nrel_main_idtf:
+ [Предметная область яслей]
+ (* <- lang_ru;; *);
+<- concept_subject_domain;
+<= nrel_child_subject_domain:
+ subject_domain_of_kindergarten;;
+
+subject_domain_of_preschool
+=> nrel_main_idtf:
+ [Предметная область дошкольного образования]
+ (* <- lang_ru;; *);
+<- concept_subject_domain;
+<= nrel_child_subject_domain:
+ subject_domain_of_kindergarten;;

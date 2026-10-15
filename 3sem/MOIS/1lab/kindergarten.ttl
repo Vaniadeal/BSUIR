@@ -1,0 +1,323 @@
+@prefix : <http://www.semanticweb.org/ivank/ontologies/2026/8/untitled-ontology-3/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix kindergarten: <http://example.org/ontology/kindergarten#> .
+@base <http://www.semanticweb.org/ivank/ontologies/2026/8/untitled-ontology-3/> .
+
+<http://example.org/ontology/kindergarten#> rdf:type owl:Ontology .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://example.org/ontology/kindergarten#ГотовитДля
+kindergarten:ГотовитДля rdf:type owl:ObjectProperty ;
+                        rdfs:domain kindergarten:Повар ;
+                        rdfs:range kindergarten:Группа .
+
+
+###  http://example.org/ontology/kindergarten#Лечит
+kindergarten:Лечит rdf:type owl:ObjectProperty ;
+                   rdfs:domain kindergarten:Медсестра ;
+                   rdfs:range kindergarten:Ребенок .
+
+
+###  http://example.org/ontology/kindergarten#ПосещаетГруппу
+kindergarten:ПосещаетГруппу rdf:type owl:ObjectProperty ,
+                                     owl:FunctionalProperty ;
+                            rdfs:domain kindergarten:Ребенок ;
+                            rdfs:range kindergarten:Группа .
+
+
+###  http://example.org/ontology/kindergarten#ЯвляетсяРодителем
+kindergarten:ЯвляетсяРодителем rdf:type owl:ObjectProperty ;
+                               owl:inverseOf kindergarten:имеетРодителя ;
+                               rdfs:domain kindergarten:Родитель ;
+                               rdfs:range kindergarten:Ребенок .
+
+
+###  http://example.org/ontology/kindergarten#имеетРодителя
+kindergarten:имеетРодителя rdf:type owl:ObjectProperty ;
+                           rdfs:domain kindergarten:Ребенок ;
+                           rdfs:range kindergarten:Родитель .
+
+
+###  http://example.org/ontology/kindergarten#проходитВ
+kindergarten:проходитВ rdf:type owl:ObjectProperty ;
+                       rdfs:domain kindergarten:Мероприятие ;
+                       rdfs:range kindergarten:Помещение .
+
+
+###  http://example.org/ontology/kindergarten#работаетВГруппе
+kindergarten:работаетВГруппе rdf:type owl:ObjectProperty ,
+                                      owl:FunctionalProperty ;
+                             rdfs:domain kindergarten:Сотрудник ;
+                             rdfs:range kindergarten:Группа .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://example.org/ontology/kindergarten#имеетВозраст
+kindergarten:имеетВозраст rdf:type owl:DatatypeProperty ,
+                                   owl:FunctionalProperty ;
+                          rdfs:domain kindergarten:Человек ;
+                          rdfs:range xsd:integer .
+
+
+###  http://example.org/ontology/kindergarten#имеетИмя
+kindergarten:имеетИмя rdf:type owl:DatatypeProperty ,
+                               owl:FunctionalProperty ;
+                      rdfs:domain kindergarten:Человек ;
+                      rdfs:range xsd:string .
+
+
+###  http://example.org/ontology/kindergarten#имеетНомерТелефона
+kindergarten:имеетНомерТелефона rdf:type owl:DatatypeProperty ,
+                                         owl:FunctionalProperty ;
+                                rdfs:domain kindergarten:Человек ;
+                                rdfs:range xsd:string .
+
+
+###  http://example.org/ontology/kindergarten#имеетСтаж
+kindergarten:имеетСтаж rdf:type owl:DatatypeProperty ;
+                       rdfs:domain kindergarten:Сотрудник ;
+                       rdfs:range xsd:integer .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://example.org/ontology/kindergarten#Воспитатель
+kindergarten:Воспитатель rdf:type owl:Class ;
+                         rdfs:subClassOf kindergarten:Сотрудник .
+
+
+###  http://example.org/ontology/kindergarten#Группа
+kindergarten:Группа rdf:type owl:Class .
+
+
+###  http://example.org/ontology/kindergarten#Медсестра
+kindergarten:Медсестра rdf:type owl:Class ;
+                       rdfs:subClassOf kindergarten:Сотрудник ;
+                       owl:disjointWith kindergarten:Родитель .
+
+
+###  http://example.org/ontology/kindergarten#Мероприятие
+kindergarten:Мероприятие rdf:type owl:Class .
+
+
+###  http://example.org/ontology/kindergarten#Повар
+kindergarten:Повар rdf:type owl:Class ;
+                   rdfs:subClassOf kindergarten:Сотрудник .
+
+
+###  http://example.org/ontology/kindergarten#Помещение
+kindergarten:Помещение rdf:type owl:Class .
+
+
+###  http://example.org/ontology/kindergarten#Ребенок
+kindergarten:Ребенок rdf:type owl:Class ;
+                     rdfs:subClassOf kindergarten:Человек ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty kindergarten:ПосещаетГруппу ;
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:onClass kindergarten:Группа
+                                     ] ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty kindergarten:имеетВозраст ;
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:onDataRange xsd:integer
+                                     ] .
+
+
+###  http://example.org/ontology/kindergarten#Родитель
+kindergarten:Родитель rdf:type owl:Class ;
+                      rdfs:subClassOf kindergarten:Человек .
+
+
+###  http://example.org/ontology/kindergarten#Сотрудник
+kindergarten:Сотрудник rdf:type owl:Class ;
+                       rdfs:subClassOf kindergarten:Человек .
+
+
+###  http://example.org/ontology/kindergarten#Человек
+kindergarten:Человек rdf:type owl:Class .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://example.org/ontology/kindergarten#Анна_Сергеевна
+kindergarten:Анна_Сергеевна rdf:type owl:NamedIndividual ,
+                                     kindergarten:Воспитатель ;
+                            kindergarten:работаетВГруппе kindergarten:Звездочки ;
+                            kindergarten:имеетВозраст 35 ;
+                            kindergarten:имеетИмя "Анна Сергеевна" ;
+                            kindergarten:имеетСтаж 3 .
+
+
+###  http://example.org/ontology/kindergarten#Аня
+kindergarten:Аня rdf:type owl:NamedIndividual ,
+                          kindergarten:Ребенок ;
+                 kindergarten:ПосещаетГруппу kindergarten:Звездочки ;
+                 kindergarten:имеетРодителя kindergarten:Елена_Ивановна ;
+                 kindergarten:имеетВозраст 3 ;
+                 kindergarten:имеетИмя "Аня" .
+
+
+###  http://example.org/ontology/kindergarten#Борис_Павлович
+kindergarten:Борис_Павлович rdf:type owl:NamedIndividual ,
+                                     kindergarten:Повар ;
+                            kindergarten:ГотовитДля kindergarten:Солнышко ;
+                            kindergarten:имеетВозраст 45 ;
+                            kindergarten:имеетИмя "Борис Павлович" ;
+                            kindergarten:имеетСтаж 10 .
+
+
+###  http://example.org/ontology/kindergarten#Ваня
+kindergarten:Ваня rdf:type owl:NamedIndividual ,
+                           kindergarten:Ребенок ;
+                  kindergarten:ПосещаетГруппу kindergarten:Ягодки ;
+                  kindergarten:имеетВозраст 5 ;
+                  kindergarten:имеетИмя "Ваня" .
+
+
+###  http://example.org/ontology/kindergarten#Елена_Ивановна
+kindergarten:Елена_Ивановна rdf:type owl:NamedIndividual ,
+                                     kindergarten:Родитель ;
+                            kindergarten:ЯвляетсяРодителем kindergarten:Аня ;
+                            kindergarten:имеетВозраст 32 ;
+                            kindergarten:имеетНомерТелефона "12345" ;
+                            kindergarten:имеетСтаж 3 .
+
+
+###  http://example.org/ontology/kindergarten#Звездочки
+kindergarten:Звездочки rdf:type owl:NamedIndividual ,
+                                kindergarten:Группа .
+
+
+###  http://example.org/ontology/kindergarten#Иван_Иванович
+kindergarten:Иван_Иванович rdf:type owl:NamedIndividual ,
+                                    kindergarten:Родитель ;
+                           kindergarten:имеетВозраст 32 ;
+                           kindergarten:имеетНомерТелефона "56757" .
+
+
+###  http://example.org/ontology/kindergarten#Мария_Николаевна
+kindergarten:Мария_Николаевна rdf:type owl:NamedIndividual ,
+                                       kindergarten:Воспитатель ;
+                              kindergarten:работаетВГруппе kindergarten:Солнышко ;
+                              kindergarten:имеетВозраст 36 ;
+                              kindergarten:имеетИмя "Мария" ;
+                              kindergarten:имеетСтаж 3 .
+
+
+###  http://example.org/ontology/kindergarten#Мария_Петровна
+kindergarten:Мария_Петровна rdf:type owl:NamedIndividual ,
+                                     kindergarten:Родитель ;
+                            kindergarten:имеетВозраст 30 ;
+                            kindergarten:имеетИмя "Мария" .
+
+
+###  http://example.org/ontology/kindergarten#Маша
+kindergarten:Маша rdf:type owl:NamedIndividual ,
+                           kindergarten:Ребенок ;
+                  kindergarten:ПосещаетГруппу kindergarten:Солнышко ;
+                  kindergarten:имеетРодителя kindergarten:Мария_Петровна ;
+                  kindergarten:имеетВозраст 4 ;
+                  kindergarten:имеетИмя "Маша" .
+
+
+###  http://example.org/ontology/kindergarten#МузыкальныйЗал
+kindergarten:МузыкальныйЗал rdf:type owl:NamedIndividual ,
+                                     kindergarten:Помещение .
+
+
+###  http://example.org/ontology/kindergarten#Ольга_Николаевна
+kindergarten:Ольга_Николаевна rdf:type owl:NamedIndividual ,
+                                       kindergarten:Воспитатель ;
+                              kindergarten:работаетВГруппе kindergarten:Ягодки ;
+                              kindergarten:имеетВозраст 40 ;
+                              kindergarten:имеетИмя "Ольга Николаевна" ;
+                              kindergarten:имеетСтаж 5 .
+
+
+###  http://example.org/ontology/kindergarten#Петя
+kindergarten:Петя rdf:type owl:NamedIndividual ,
+                           kindergarten:Ребенок ;
+                  kindergarten:ПосещаетГруппу kindergarten:Солнышко ;
+                  kindergarten:имеетРодителя kindergarten:Иван_Иванович ;
+                  kindergarten:имеетВозраст 6 ;
+                  kindergarten:имеетИмя "Петя" .
+
+
+###  http://example.org/ontology/kindergarten#Сергей_Сергеевич
+kindergarten:Сергей_Сергеевич rdf:type owl:NamedIndividual ,
+                                       kindergarten:Родитель ;
+                              kindergarten:имеетВозраст 35 .
+
+
+###  http://example.org/ontology/kindergarten#Солнышко
+kindergarten:Солнышко rdf:type owl:NamedIndividual ,
+                               kindergarten:Группа .
+
+
+###  http://example.org/ontology/kindergarten#Татьяна_Ивановна
+kindergarten:Татьяна_Ивановна rdf:type owl:NamedIndividual ,
+                                       kindergarten:Медсестра ;
+                              kindergarten:Лечит kindergarten:Петя ;
+                              kindergarten:имеетВозраст 50 ;
+                              kindergarten:имеетИмя "Татьяна Ивановна" ;
+                              kindergarten:имеетСтаж 15 .
+
+
+###  http://example.org/ontology/kindergarten#Утренник
+kindergarten:Утренник rdf:type owl:NamedIndividual ,
+                               kindergarten:Мероприятие ;
+                      kindergarten:проходитВ kindergarten:МузыкальныйЗал .
+
+
+###  http://example.org/ontology/kindergarten#Ягодки
+kindergarten:Ягодки rdf:type owl:NamedIndividual ,
+                             kindergarten:Группа .
+
+
+#################################################################
+#    General axioms
+#################################################################
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( kindergarten:Воспитатель
+                kindergarten:Медсестра
+                kindergarten:Ребенок
+                kindergarten:Родитель
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( kindergarten:Воспитатель
+                kindergarten:Медсестра
+                kindergarten:Родитель
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( kindergarten:Мероприятие
+                kindergarten:Помещение
+                kindergarten:Ребенок
+                kindergarten:Родитель
+                kindergarten:Сотрудник
+              )
+] .
+
+
+###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi

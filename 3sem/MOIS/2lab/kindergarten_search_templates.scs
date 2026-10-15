@@ -1,0 +1,57 @@
+
+// Набор sc-шаблонов 
+
+
+// Шаблон 1: Поиск экземпляров заданного класса (все дети)
+template_search_children
+= [*
+    concept_child _-> _child;;
+*];;
+
+// Шаблон 2: Поиск пар сущностей, связанных бинарным отношением (ребенок - группа)
+template_search_child_visits_group
+= [*
+    _child _=> nrel_visits_group: _group;;
+*];;
+
+// Шаблон 3: Конструкция с атрибутами/характеристиками (дети с именем и возрастом)
+template_search_child_attributes
+= [*
+    concept_child _-> _child;;
+    _child _=> nrel_has_name: _name;;
+    _child _=> nrel_has_age: _age;;
+*];;
+
+// Шаблон 4: Поиск семантической окрестности выбранного понятия (окрестность Пети)
+// Включает 3 связанные конструкции: группа, родитель, лечащая медсестра
+template_search_petya_neighborhood
+= [*
+    Petya _=> nrel_visits_group: _group;;
+    Petya _=> nrel_has_parent: _parent;;
+    _nurse _=> nrel_treats: Petya;;
+*];;
+
+// Отрицательный тест для Шаблона 4 (проверка отсутствия конструкции для Вани):
+template_search_vanya_neighborhood
+= [*
+    Vanya _=> nrel_visits_group: _group;;
+    Vanya _=> nrel_has_parent: _parent;;
+    _nurse _=> nrel_treats: Vanya;;
+*];;
+
+// Шаблон 5: Составная конструкция с дополнительным условием на тип и связь
+// (Воспитатель группы "Солнышко" со стажем)
+template_search_educator_in_solnyshko
+= [*
+    concept_educator _-> _educator;;
+    _educator _=> nrel_works_in_group: Solnyshko;;
+    _educator _=> nrel_has_experience: _experience;;
+*];;
+
+// Отрицательный тест для Шаблона 5 (воспитатель в пустой группе "Звездочки"):
+template_search_educator_in_zvezdochki
+= [*
+    concept_educator _-> _educator;;
+    _educator _=> nrel_works_in_group: Zvezdochki;;
+    _educator _=> nrel_has_experience: _experience;;
+*];;

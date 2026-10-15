@@ -1,0 +1,36 @@
+nrel_visits_group
+=> nrel_main_idtf:
+ [посещает группу*]
+ (*
+ <- lang_ru;;
+ *);
+=> nrel_main_idtf:
+ [visits group*]
+ (*
+ <- lang_en;;
+ *);
+<- rrel_explored_relation:
+ subject_domain_of_kindergarten;
+<= nrel_inclusion:
+ nrel_membership;
+=> nrel_definitional_domain:
+ .._visits_group_domain
+ (*
+ <= nrel_set_union: {
+ concept_child;
+ concept_group
+ };;
+ *);
+=> nrel_first_domain:
+ concept_child;
+=> nrel_second_domain:
+ concept_group;
+-> rrel_example:
+ (Anya -> Zvezdochki);
+=> nrel_definition:
+ [Посещать группу — это отношение между ребёнком и группой
+ детского сада, которое означает, что ребёнок регулярно
+ находится в этой группе.]
+ (*
+ <- lang_ru;;
+ *);;
