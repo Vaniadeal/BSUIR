@@ -1,0 +1,9 @@
+# Compiled binaries and object files
+*.o
+*.out
+tests
+experiments
+
+# Python
+__pycache__/
+*.py[cod]

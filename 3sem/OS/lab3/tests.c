@@ -146,7 +146,7 @@ static void test_free_bad(void) {
 
 // Нехватка памяти
 static void test_out_of_memory(void) {
-    mm_init(PAGE, 2, 1);
+    mm_init(PAGE, 2, 2);
 
     CHECK(mm_malloc(PAGE) != MM_NULL,      "first page ok");
     CHECK(mm_malloc(PAGE) != MM_NULL,      "second page ok");

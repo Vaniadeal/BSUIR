@@ -15,5 +15,8 @@ run: tests
 exp: experiments
 	./experiments
 
+plot: exp
+	python3 plot.py
+
 clean:
 	rm -f tests experiments *.o *.csv *.png

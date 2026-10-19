@@ -111,3 +111,16 @@ int mm_read(vaddr_t addr, void *buf, size_t size) {
 }
 
 size_t mm_allocated_pages(void) { return (size_t)alloced; }
+
+void mm_destroy(void) {
+    alloced = 0;
+    used = 0;
+}
+
+size_t mm_used_frames(void) {
+    return (size_t)used;
+}
+
+size_t mm_page_faults(void) {
+    return 0;
+}
