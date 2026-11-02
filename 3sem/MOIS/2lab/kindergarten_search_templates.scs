@@ -1,57 +1,101 @@
+// ============================================================================
+// Лабораторная работа №2: sc-шаблоны поиска по онтологии детского сада
+// ============================================================================
 
-// Набор sc-шаблонов 
-
-
-// Шаблон 1: Поиск экземпляров заданного класса (все дети)
+// ----------------------------------------------------------------------------
+// Шаблон 1: Поиск экземпляров класса (все дети детского сада)
+// ----------------------------------------------------------------------------
 template_search_children
 = [*
     concept_child _-> _child;;
-*];;
+*];
+=> nrel_main_idtf:
+    [Шаблон 1: Поиск всех детей] (* <- lang_ru;; *);
+    [Template 1: Search all children] (* <- lang_en;; *);
+=> nrel_idtf:
+    [template_search_children] (* <- lang_en;; *);;
 
-// Шаблон 2: Поиск пар сущностей, связанных бинарным отношением (ребенок - группа)
+// ----------------------------------------------------------------------------
+// Шаблон 2: Поиск элементов бинарного отношения (ребенок - посещаемая группа)
+// ----------------------------------------------------------------------------
 template_search_child_visits_group
 = [*
-    _child _=> nrel_visits_group: _group;;
-*];;
+    nrel_visits_group _-> (_child _=> _group);;
+*];
+=> nrel_main_idtf:
+    [Шаблон 2: Поиск посещений групп детьми] (* <- lang_ru;; *);
+    [Template 2: Search child visits group] (* <- lang_en;; *);
+=> nrel_idtf:
+    [template_search_child_visits_group] (* <- lang_en;; *);;
 
-// Шаблон 3: Конструкция с атрибутами/характеристиками (дети с именем и возрастом)
+// ----------------------------------------------------------------------------
+// Шаблон 3: Поиск сущности по атрибутам (дети с именем и возрастом)
+// ----------------------------------------------------------------------------
 template_search_child_attributes
 = [*
     concept_child _-> _child;;
-    _child _=> nrel_has_name: _name;;
-    _child _=> nrel_has_age: _age;;
-*];;
+    nrel_has_name _-> (_child _=> _name);;
+    nrel_has_age _-> (_child _=> _age);;
+*];
+=> nrel_main_idtf:
+    [Шаблон 3: Поиск детей с именем и возрастом] (* <- lang_ru;; *);
+    [Template 3: Search children with name and age] (* <- lang_en;; *);
+=> nrel_idtf:
+    [template_search_child_attributes] (* <- lang_en;; *);;
 
-// Шаблон 4: Поиск семантической окрестности выбранного понятия (окрестность Пети)
-// Включает 3 связанные конструкции: группа, родитель, лечащая медсестра
+// ----------------------------------------------------------------------------
+// Шаблон 4: Поиск семантической окрестности сущности (окрестность ребенка Пети)
+// Связывает >= 3 конструкций: группа, родитель, лечащая медсестра
+// ----------------------------------------------------------------------------
 template_search_petya_neighborhood
 = [*
-    Petya _=> nrel_visits_group: _group;;
-    Petya _=> nrel_has_parent: _parent;;
-    _nurse _=> nrel_treats: Petya;;
-*];;
+    nrel_visits_group _-> (Petya _=> _group);;
+    nrel_has_parent _-> (Petya _=> _parent);;
+    nrel_treats _-> (_nurse _=> Petya);;
+*];
+=> nrel_main_idtf:
+    [Шаблон 4: Семантическая окрестность Пети] (* <- lang_ru;; *);
+    [Template 4: Petya semantic neighborhood] (* <- lang_en;; *);
+=> nrel_idtf:
+    [template_search_petya_neighborhood] (* <- lang_en;; *);;
 
-// Отрицательный тест для Шаблона 4 (проверка отсутствия конструкции для Вани):
+// Отрицательный тест 1 (для Шаблона 4): окрестность Вани (медсестра не назначена)
 template_search_vanya_neighborhood
 = [*
-    Vanya _=> nrel_visits_group: _group;;
-    Vanya _=> nrel_has_parent: _parent;;
-    _nurse _=> nrel_treats: Vanya;;
-*];;
+    nrel_visits_group _-> (Vanya _=> _group);;
+    nrel_has_parent _-> (Vanya _=> _parent);;
+    nrel_treats _-> (_nurse _=> Vanya);;
+*];
+=> nrel_main_idtf:
+    [Шаблон 4 (Отрицательный тест): Окрестность Вани] (* <- lang_ru;; *);
+    [Template 4 Neg: Vanya neighborhood] (* <- lang_en;; *);
+=> nrel_idtf:
+    [template_search_vanya_neighborhood] (* <- lang_en;; *);;
 
-// Шаблон 5: Составная конструкция с дополнительным условием на тип и связь
-// (Воспитатель группы "Солнышко" со стажем)
+// ----------------------------------------------------------------------------
+// Шаблон 5: Составное условие с фильтрацией (воспитатель группы "Солнышко" со стажем)
+// ----------------------------------------------------------------------------
 template_search_educator_in_solnyshko
 = [*
     concept_educator _-> _educator;;
-    _educator _=> nrel_works_in_group: Solnyshko;;
-    _educator _=> nrel_has_experience: _experience;;
-*];;
+    nrel_works_in_group _-> (_educator _=> Solnyshko);;
+    nrel_has_experience _-> (_educator _=> _experience);;
+*];
+=> nrel_main_idtf:
+    [Шаблон 5: Воспитатель группы Солнышко со стажем] (* <- lang_ru;; *);
+    [Template 5: Educator in Solnyshko with experience] (* <- lang_en;; *);
+=> nrel_idtf:
+    [template_search_educator_in_solnyshko] (* <- lang_en;; *);;
 
-// Отрицательный тест для Шаблона 5 (воспитатель в пустой группе "Звездочки"):
+// Отрицательный тест 2 (для Шаблона 5): воспитатель группы "Звездочки" (отсутствует)
 template_search_educator_in_zvezdochki
 = [*
     concept_educator _-> _educator;;
-    _educator _=> nrel_works_in_group: Zvezdochki;;
-    _educator _=> nrel_has_experience: _experience;;
-*];;
+    nrel_works_in_group _-> (_educator _=> Zvezdochki);;
+    nrel_has_experience _-> (_educator _=> _experience);;
+*];
+=> nrel_main_idtf:
+    [Шаблон 5 (Отрицательный тест): Воспитатель группы Звездочки] (* <- lang_ru;; *);
+    [Template 5 Neg: Educator in Zvezdochki] (* <- lang_en;; *);
+=> nrel_idtf:
+    [template_search_educator_in_zvezdochki] (* <- lang_en;; *);;
