@@ -1,5 +1,6 @@
 #include "mmemory.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #define PAGE 4096
@@ -27,7 +28,31 @@ static void exp_fragmentation(void) {
     printf("frag.csv written\n");
 }
 
+static void exp_accumulation(void) {
+    mm_init(PAGE, 1024, 512);
+    FILE *f = fopen("accum_frag.csv", "w");
+    fprintf(f, "allocations,wasted_bytes\n");
+    srand(42);
+    size_t total_wasted = 0;
+    for (int i = 1; i <= 500; i++) {
+        size_t size = 1 + (size_t)(rand() % PAGE);
+        vaddr_t addr = mm_malloc(size);
+        if (addr == MM_NULL) {
+            fprintf(stderr, "Allocation failed at %d\n", i);
+            break;
+        }
+        total_wasted += PAGE - size;
+        if (i % 50 == 0) {
+            fprintf(f, "%d,%zu\n", i, total_wasted);
+        }
+    }
+    fclose(f);
+    mm_destroy();
+    printf("accum_frag.csv written\n");
+}
+
 int main(void) {
     exp_fragmentation();
+    exp_accumulation();
     return 0;
 }

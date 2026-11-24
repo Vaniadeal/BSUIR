@@ -1,0 +1,15 @@
+create doc1.txt
+write doc1.txt "Hello from Operating Systems Lab 4! Variant 2: Linked list of blocks."
+stat doc1.txt
+read doc1.txt
+append doc1.txt " Appending second block data: testing append operation."
+stat doc1.txt
+read doc1.txt
+cp doc1.txt doc2_copy.txt
+mv doc1.txt doc1_renamed.txt
+ls
+read doc1_renamed.txt
+read doc2_copy.txt
+rm doc2_copy.txt
+ls
+dump
